@@ -4,12 +4,13 @@ const Project = require('./projects-model')
 
 const router = express.Router()
 
-router.get('/', (req, res, next) => {
-    Project.get(req.query)
-    .then(projects => {
+router.get('/', async (req, res, next) => {
+    const projects = await Project.get(req)
+    try {
         res.json(projects)
-    })
-    .catch(next)
+    } catch(err) {
+        next(err)
+    }
 })
 
 
